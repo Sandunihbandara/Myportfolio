@@ -1,0 +1,1086 @@
+/* ---------- BASIC RESET ---------- */
+
+
+
+* {
+
+margin: 0;
+
+padding: 0;
+
+box-sizing: border-box;
+
+}
+
+
+
+html {
+
+scroll-behavior: smooth;
+
+}
+
+
+
+body {
+
+font-family: Arial, sans-serif;
+
+background: #150a24;
+
+color: #f4eefc;
+
+}
+
+
+
+
+
+/* ---------- NAVIGATION ---------- */
+
+
+
+.navbar {
+
+position: fixed;
+
+top: 0;
+
+left: 0;
+
+width: 100%;
+
+
+
+display: flex;
+
+justify-content: space-between;
+
+align-items: center;
+
+
+
+padding: 20px 8%;
+
+
+
+background: rgba(21, 10, 36, 0.9);
+
+
+
+z-index: 1000;
+
+}
+
+
+
+.logo {
+
+color: #c084fc;
+
+font-size: 28px;
+
+}
+
+
+
+.nav-links {
+
+display: flex;
+
+gap: 30px;
+
+}
+
+
+
+.nav-links a {
+
+color: #b9a8d6;
+
+text-decoration: none;
+
+transition: 0.3s;
+
+}
+
+
+
+.nav-links a:hover {
+
+color: #d946ef;
+
+}
+
+
+
+
+
+/* ---------- HERO SECTION ---------- */
+
+
+
+
+
+
+
+.hero-text {
+
+max-width: 600px;
+
+}
+
+
+
+.small-text {
+
+color: #c084fc;
+
+letter-spacing: 3px;
+
+font-size: 14px;
+
+margin-bottom: 15px;
+
+}
+
+
+
+.hero h1 {
+
+font-size: 60px;
+
+margin-bottom: 15px;
+
+}
+
+
+
+.hero h2 {
+
+color: #c084fc;
+
+font-size: 24px;
+
+margin-bottom: 25px;
+
+}
+
+
+
+.hero p {
+
+color: #b9a8d6;
+
+line-height: 1.8;
+
+margin-bottom: 30px;
+
+}
+
+
+
+
+
+/* ---------- BUTTON ---------- */
+
+
+
+.button {
+
+display: inline-block;
+
+
+
+padding: 14px 28px;
+
+
+
+background: #7c3aed;
+
+color: white;
+
+
+
+text-decoration: none;
+
+
+
+border-radius: 30px;
+
+
+
+transition: 0.3s;
+
+}
+
+
+
+.button:hover {
+
+background: #d946ef;
+
+transform: translateY(-3px);
+
+}
+
+
+
+
+
+/* ---------- PROFILE ---------- */
+
+
+
+/* ================================
+
+CINEMATIC HOME SECTION
+
+================================ */
+
+
+
+/* Increase the track height so there's enough space to zoom in and out */
+
+.cinematic-home {
+
+height: 300vh; /* Changed from 200vh to give room for the return animation */
+
+position: relative;
+
+overflow: visible; /* Changed from hidden to allow content underneath to flow naturally */
+
+background: radial-gradient(
+
+circle at center,
+
+#3b176b 0%,
+
+#150a24 45%,
+
+#07030d 100%
+
+);
+
+}
+
+
+
+
+
+/* ---------- HOME TEXT ---------- */
+
+
+
+.home-content {
+
+
+
+position: fixed;
+
+
+
+top: 120px;
+
+
+
+left: 8%;
+
+
+
+z-index: 5;
+
+
+
+transition:
+
+
+
+transform 0.2s ease-out,
+
+
+
+opacity 0.2s ease-out;
+
+
+
+}
+
+
+
+
+
+.home-content h1 {
+
+
+
+font-size: clamp(
+
+
+
+50px,
+
+
+
+9vw,
+
+
+
+150px
+
+
+
+);
+
+
+
+line-height: 0.85;
+
+
+
+letter-spacing: -5px;
+
+
+
+color: white;
+
+
+
+text-shadow:
+
+
+
+0 0 20px #7c3aed,
+
+
+
+0 0 50px #d946ef;
+
+
+
+}
+
+
+
+
+
+.home-subtitle {
+
+
+
+margin-top: 30px;
+
+
+
+color: #c084fc;
+
+
+
+letter-spacing: 4px;
+
+
+
+font-size: 13px;
+
+
+
+}
+
+
+
+
+
+/* ---------- PERSON IMAGE ---------- */
+
+/* ---------- PERSON CONTAINER ---------- */
+
+/* ---------- PERSON CONTAINER ---------- */
+/* ---------- PERSON CONTAINER (FLEX SYSTEM) ---------- */
+.cinematic-person {
+    position: fixed;
+    z-index: 4;
+    left: 50%;
+    top: 55%; 
+    transform-origin: center top; 
+    transform: translateX(-50%) translateY(-50%) scale(1);
+    transition: transform 0.05s linear;
+
+    /* Give the container explicit bounds */
+    width: min(1200px, 90vw);
+    height: 75vh;
+    display: flex;
+    flex-direction: row; /* Split elements side by side */
+    align-items: center;
+    justify-content: center; /* Starts perfectly centered */
+}
+
+/* 
+   NEW FIX: Create a dedicated wrapper box for the images on the left.
+   This guarantees that hidden elements can't overflow or block the text area.
+*/
+.profile-media-wrapper {
+    position: relative;
+    width: 45%; /* Allocates clean space for portrait frame */
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Shared image and video properties inside the wrapper */
+.profile-media-wrapper img, 
+.profile-media-wrapper .wave-video {
+    position: absolute;
+    display: block;
+    width: auto;
+    height: 100%;
+    max-width: 100%;
+    object-fit: contain; 
+    filter: drop-shadow(0 0 40px rgba(168, 85, 247, 0.6));
+    transition: opacity 0.25s ease, transform 0.1s linear;
+}
+
+/* Order rules */
+.wave-video     { z-index: 5; opacity: 0; }
+#profile-image { z-index: 4; opacity: 1; }
+#profile-end    { z-index: 6; opacity: 0; }
+
+/* ---------- ABOUT SPLIT TEXT (RIGHT SIDE) ---------- */
+.about-split-content {
+    width: 50%; /* Grabs the right half of the container area */
+    padding-left: 5%;
+    opacity: 0; 
+    display: none; /* Keeps layout hidden cleanly during early phases */
+    transform: translateX(40px);
+    transition: opacity 0.4s ease, transform 0.4s ease;
+    text-align: left;
+    z-index: 10;
+    scroll-margin-top: 25vh;
+}
+
+.about-split-content h2 {
+    font-size: clamp(32px, 4vw, 42px);
+    margin-bottom: 20px;
+    color: white;
+}
+
+.about-split-content .about-text {
+    color: #b9a8d6;
+    line-height: 1.8;
+    margin-bottom: 15px;
+    font-size: 16px;
+}
+
+
+/* ---------- INVISIBLE NAV TARGET FOR ABOUT SECTION ---------- */
+.about-scroll-anchor {
+    position: absolute;
+    bottom: 15vh; /* Places it exactly where the zoom animation ends */
+    left: 0;
+    width: 100%;
+    height: 1px;
+    pointer-events: none; /* Invisible to mouse clicks */
+    
+    /* Offsets the landing spot slightly so your text sits comfortably on screen */
+    scroll-margin-top: 10vh; 
+}
+
+/* ---------- SCROLL INDICATOR ---------- */
+
+
+
+.scroll-indicator {
+
+
+
+position: fixed;
+
+
+
+bottom: 30px;
+
+
+
+left: 50%;
+
+
+
+transform: translateX(-50%);
+
+
+
+z-index: 10;
+
+
+
+color: #a78bfa;
+
+
+
+font-size: 11px;
+
+
+
+letter-spacing: 3px;
+
+
+
+animation: scrollPulse 2s infinite;
+
+
+
+}
+
+
+
+
+
+@keyframes scrollPulse {
+
+
+
+0%,
+
+
+
+100% {
+
+
+
+opacity: 0.4;
+
+
+
+}
+
+
+
+50% {
+
+
+
+opacity: 1;
+
+
+
+}
+
+
+
+}
+
+
+
+
+
+
+
+
+
+.profile-circle {
+
+width: 300px;
+
+height: 300px;
+
+
+
+display: flex;
+
+justify-content: center;
+
+align-items: center;
+
+
+
+border-radius: 50%;
+
+
+
+background: linear-gradient(
+
+135deg,
+
+#7c3aed,
+
+#d946ef
+
+);
+
+
+
+font-size: 70px;
+
+font-weight: bold;
+
+
+
+box-shadow: 0 0 60px #7c3aed;
+
+}
+
+
+
+
+
+/* ---------- COMMON SECTION ---------- */
+
+
+
+/* Ensure subsequent content blocks have background fills and sit on top of the fixed hero */
+
+.section {
+
+position: relative;
+
+z-index: 10; /* Higher than cinematic-person (4) so they scroll on top of it */
+
+background: #150a24; /* Solid background prevents the fixed image from showing through */
+
+padding: 120px 10%;
+
+min-height: 70vh;
+
+}
+
+
+
+.section h2 {
+
+font-size: 42px;
+
+margin-bottom: 30px;
+
+}
+
+
+
+
+
+/* ---------- ABOUT ---------- */
+
+
+
+.about-text {
+
+max-width: 800px;
+
+
+
+color: #b9a8d6;
+
+
+
+line-height: 1.8;
+
+
+
+margin-bottom: 20px;
+
+}
+
+
+
+
+
+
+
+
+
+.skills-container {
+
+display: grid;
+
+
+
+grid-template-columns:
+
+repeat(auto-fit, minmax(220px, 1fr));
+
+
+
+gap: 20px;
+
+}
+
+
+
+.skill-card {
+
+padding: 25px;
+
+
+
+border: 1px solid rgba(168, 85, 247, 0.3);
+
+
+
+border-radius: 15px;
+
+
+
+background: rgba(255, 255, 255, 0.04);
+
+
+
+transition: 0.3s;
+
+}
+
+
+
+.skill-card:hover {
+
+transform: translateY(-8px);
+
+
+
+border-color: #c084fc;
+
+
+
+box-shadow: 0 0 25px rgba(168, 85, 247, 0.3);
+
+}
+
+
+
+.skill-card h3 {
+
+color: #c084fc;
+
+
+
+margin-bottom: 15px;
+
+}
+
+
+
+.skill-card p {
+
+color: #b9a8d6;
+
+
+
+line-height: 1.6;
+
+}
+
+
+
+
+
+/* ---------- PROJECTS ---------- */
+
+
+
+.projects-container {
+
+display: grid;
+
+
+
+grid-template-columns:
+
+repeat(auto-fit, minmax(280px, 1fr));
+
+
+
+gap: 25px;
+
+}
+
+
+
+.project-card {
+
+padding: 30px;
+
+
+
+background: rgba(255, 255, 255, 0.04);
+
+
+
+border: 1px solid rgba(168, 85, 247, 0.3);
+
+
+
+border-radius: 15px;
+
+
+
+transition: 0.3s;
+
+}
+
+
+
+.project-card:hover {
+
+transform: translateY(-10px);
+
+
+
+border-color: #d946ef;
+
+}
+
+
+
+.project-card h3 {
+
+color: #c084fc;
+
+
+
+margin-bottom: 15px;
+
+}
+
+
+
+.project-card p {
+
+color: #b9a8d6;
+
+
+
+line-height: 1.7;
+
+
+
+margin-bottom: 20px;
+
+}
+
+
+
+.project-card span {
+
+display: inline-block;
+
+
+
+padding: 6px 12px;
+
+
+
+margin: 4px;
+
+
+
+border-radius: 20px;
+
+
+
+background: rgba(124, 58, 237, 0.3);
+
+
+
+color: #e9d5ff;
+
+
+
+font-size: 12px;
+
+}
+
+
+
+
+
+/* ---------- CONTACT ---------- */
+
+
+
+.contact {
+
+text-align: center;
+
+}
+
+
+
+.contact p {
+
+color: #b9a8d6;
+
+
+
+max-width: 600px;
+
+
+
+margin: 0 auto 30px;
+
+
+
+line-height: 1.8;
+
+}
+
+
+
+.contact-links {
+
+display: flex;
+
+
+
+justify-content: center;
+
+
+
+gap: 20px;
+
+}
+
+
+
+.contact-links a {
+
+color: #c084fc;
+
+
+
+text-decoration: none;
+
+
+
+border: 1px solid #7c3aed;
+
+
+
+padding: 12px 25px;
+
+
+
+border-radius: 25px;
+
+}
+
+
+
+.contact-links a:hover {
+
+background: #7c3aed;
+
+
+
+color: white;
+
+}
+
+
+
+
+
+/* ---------- FOOTER ---------- */
+
+
+
+footer {
+
+text-align: center;
+
+
+
+padding: 30px;
+
+
+
+color: #8e7aa9;
+
+
+
+border-top: 1px solid rgba(168, 85, 247, 0.2);
+
+}
+
+
+
+
+
+/* ---------- MOBILE ---------- */
+
+
+
+@media (max-width: 768px) {
+
+
+
+.navbar {
+
+padding: 20px;
+
+}
+
+
+
+.nav-links {
+
+gap: 12px;
+
+font-size: 12px;
+
+}
+
+
+
+.hero {
+
+flex-direction: column;
+
+
+
+text-align: center;
+
+
+
+gap: 50px;
+
+}
+
+
+
+.hero h1 {
+
+font-size: 42px;
+
+}
+
+
+
+.hero h2 {
+
+font-size: 20px;
+
+}
+
+
+
+.profile-circle {
+
+width: 220px;
+
+height: 220px;
+
+
+
+font-size: 50px;
+
+}
+
+
+
+.section {
+
+padding: 80px 7%;
+
+}
+
+
+
+}
