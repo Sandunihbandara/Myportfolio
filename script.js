@@ -130,3 +130,62 @@ if (aboutNavLink) {
         }
     });
 }
+
+// ---------- SYSTEM DASHBOARD GRAPH ENGINE ----------
+function drawLines() {
+  const svg = document.getElementById('lines');
+  const wrap = document.querySelector('.hub-wrap');
+  if (!svg || !wrap) return;
+  
+  if (window.innerWidth <= 1150) { 
+    svg.innerHTML = ''; 
+    return; 
+  }
+  
+  const center = document.querySelector('.hub-center');
+  const wrapRect = wrap.getBoundingClientRect();
+  const cRect = center.getBoundingClientRect();
+  const cx = cRect.left - wrapRect.left + cRect.width / 2;
+  const cy = cRect.top - wrapRect.top + cRect.height / 2;
+
+  svg.innerHTML = '';
+  document.querySelectorAll('[data-node]').forEach(node => {
+    const r = node.getBoundingClientRect();
+    const nx = r.left - wrapRect.left + r.width / 2;
+    const ny = r.top - wrapRect.top + r.height / 2;
+    const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+    line.setAttribute('x1', cx); line.setAttribute('y1', cy);
+    line.setAttribute('x2', nx); line.setAttribute('y2', ny);
+    line.dataset.target = node.dataset.id;
+    svg.appendChild(line);
+  });
+}
+
+window.addEventListener('resize', drawLines);
+window.addEventListener('load', drawLines);
+// Run initial build setup once code triggers
+setTimeout(drawLines, 200);
+
+// Line connector node hover transitions
+document.querySelectorAll('[data-node]').forEach(node => {
+  const card = node.querySelector('.node-card') || node;
+  card.addEventListener('mouseenter', () => {
+    const line = document.querySelector(`.lines line[data-target="${node.dataset.id}"]`);
+    if (line) line.classList.add('line-active');
+  });
+  card.addEventListener('mouseleave', () => {
+    const line = document.querySelector(`.lines line[data-target="${node.dataset.id}"]`);
+    if (line) line.classList.remove('line-active');
+  });
+});
+
+// Dynamic intersection skill progress meter
+const bars = document.querySelectorAll('.bar-fill');
+const skillObserver = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) { 
+      e.target.style.width = e.target.dataset.fill + '%'; 
+    }
+  });
+}, { threshold: 0.2 });
+bars.forEach(b => skillObserver.observe(b));
