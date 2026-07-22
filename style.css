@@ -244,7 +244,7 @@ CINEMATIC HOME SECTION
 
 .cinematic-home {
 
-height: 300vh; /* Changed from 200vh to give room for the return animation */
+height: 200vh; /* Changed from 200vh to give room for the return animation */
 
 position: relative;
 
@@ -417,7 +417,7 @@ font-size: 13px;
 #skills, #projects, #contact {
     position: relative;
     z-index: 10;               /* Higher than cinematic-person */
-    background: #100819;      /* Matches your system background color */
+    background: #150a24;      /* Matches your system background color */
 }
 
 /* 
@@ -705,7 +705,7 @@ margin-bottom: 20px;
 
 #skills {
   font-family: 'Consolas', 'Courier New', monospace;
-  padding: 80px 3vw;
+  padding: 40px 3vw 80px 3vw;
 }
 
 .dashboard {
@@ -795,46 +795,35 @@ margin-bottom: 20px;
 .scan-row { display: flex; justify-content: space-between; font-size: 0.72rem; margin-bottom: 8px; color: var(--text-lo); }
 .scan-row .ok { color: var(--ok-green); font-weight: 600; }
 
-/* -------- RADIAL HUB -------- */
-.hub-wrap { position: relative; min-height: 760px; }
+/* -------- RADIAL HUB & NODE POSITIONING -------- */
+.hub-wrap { 
+  position: relative; 
+  min-height: 820px; 
+}
 
 .hub-center {
-  position: absolute; top: 42%; left: 50%; transform: translate(-50%, -50%);
-  width: 130px; height: 130px;
+  position: absolute; 
+  top: 40%; 
+  left: 50%; 
+  transform: translate(-50%, -50%);
+  width: 120px; 
+  height: 120px;
   border-radius: 50%;
   border: 2px solid var(--purple-2);
-  display: flex; align-items: center; justify-content: center; flex-direction: column;
+  display: flex; 
+  align-items: center; 
+  justify-content: center; 
+  flex-direction: column;
   z-index: 3;
   background: radial-gradient(circle, rgba(124, 58, 237, 0.3), rgba(16, 8, 25, 0.9) 75%);
   box-shadow: 0 0 40px rgba(168, 85, 247, 0.4);
 }
 
-.hub-center::before {
-  content: ''; position: absolute; inset: -16px; border-radius: 50%;
-  border: 1px dashed rgba(168, 85, 247, 0.3);
+.node { 
+  position: absolute; 
+  width: 250px; 
+  z-index: 2; 
 }
-
-.hub-center .icon { font-size: 26px; margin-bottom: 4px; }
-.hub-center .label { font-family: system-ui, sans-serif; font-size: 0.72rem; font-weight: 600; color: var(--text-hi); }
-
-.lines { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 1; }
-.lines line {
-  stroke: var(--line-color);
-  stroke-width: 1;
-  transition: stroke .25s ease, stroke-width .25s ease;
-}
-
-.lines line.line-active {
-  stroke: var(--purple-3);
-  stroke-width: 2.2;
-  stroke-dasharray: 8 6;
-  filter: drop-shadow(0 0 6px var(--purple-3));
-  animation: travel 0.6s linear infinite;
-}
-
-@keyframes travel { to { stroke-dashoffset: -28; } }
-
-.node { position: absolute; width: 230px; z-index: 2; }
 
 .node-card {
   background: var(--panel-bg);
@@ -843,27 +832,33 @@ margin-bottom: 20px;
   padding: 14px 16px;
   font-family: system-ui, sans-serif;
   transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
-  cursor: default;
 }
 
-.node-card:hover {
-  transform: translateY(-8px) scale(1.03);
-  border-color: var(--purple-3);
-  box-shadow: 0 12px 30px rgba(232, 121, 249, 0.25);
+.node-card ul {
+  list-style: none;
+  font-size: 0.72rem;
+  color: var(--text-lo);
+  line-height: 1.6;
 }
 
-.node-card h5 { font-size: 0.8rem; margin-bottom: 8px; color: var(--purple-3); display: flex; align-items: center; gap: 8px; }
-.node-card ul { list-style: none; font-size: 0.7rem; color: var(--text-lo); line-height: 1.65; }
-.node-card ul li::before { content: '▪ '; color: var(--purple-2); }
+.node-card ul li {
+  margin-bottom: 6px;
+}
 
-.n-top {        top: 0%;   left: 50%; transform: translateX(-50%); }
-.n-left {       top: 30%;  left: -2%; }
-.n-right {      top: 30%;  right: -2%; }
-.n-bottom-mid { top: 62%;  left: 50%; transform: translateX(-50%); }
-.n-bl {         bottom: 0%; left: 8%; }
-.n-br {         bottom: 0%; right: 8%; }
+.node-card ul li b {
+  color: var(--text-hi);
+}
 
-@media (max-width: 1150px) {
+/* Explicit non-overlapping coordinates for all 7 nodes */
+.n-top          { top: 0%;    left: 50%; transform: translateX(-50%); }
+.n-left-top     { top: 22%;   left: -2%; }
+.n-right-top    { top: 22%;   right: -2%; }
+.n-left-bottom  { top: 58%;   left: -2%; }
+.n-right-bottom { top: 58%;   right: -2%; }
+.n-bl           { bottom: 0%; left: 15%; }
+.n-br           { bottom: 0%; right: 15%; }
+
+@media (max-width: 1250px) {
   .dashboard { grid-template-columns: 1fr; }
   .hub-wrap { min-height: auto; padding-top: 20px; }
   .hub-center { position: static; transform: none; margin: 0 auto 24px; }
@@ -871,93 +866,53 @@ margin-bottom: 20px;
   .lines { display: none; }
 }
 
-
-
-
-
-.skills-container {
-
-display: grid;
-
-
-
-grid-template-columns:
-
-repeat(auto-fit, minmax(220px, 1fr));
-
-
-
-gap: 20px;
-
+/* -------- SVG HUB LINES & HOVER LIGHTING -------- */
+.lines {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  pointer-events: none;
 }
 
-
-
-.skill-card {
-
-padding: 25px;
-
-
-
-border: 1px solid rgba(168, 85, 247, 0.3);
-
-
-
-border-radius: 15px;
-
-
-
-background: rgba(255, 255, 255, 0.04);
-
-
-
-transition: 0.3s;
-
+.lines line {
+  stroke: rgba(168, 85, 247, 0.35);
+  stroke-width: 1.5;
+  transition: stroke 0.3s ease, stroke-width 0.3s ease, filter 0.3s ease;
 }
 
-
-
-.skill-card:hover {
-
-transform: translateY(-8px);
-
-
-
-border-color: #c084fc;
-
-
-
-box-shadow: 0 0 25px rgba(168, 85, 247, 0.3);
-
+/* Active line animation on card hover */
+.lines line.line-active {
+  stroke: #e879f9;
+  stroke-width: 2.5;
+  stroke-dasharray: 8 6;
+  filter: drop-shadow(0 0 8px #e879f9);
+  animation: pulsePath 0.5s linear infinite;
 }
 
-
-
-.skill-card h3 {
-
-color: #c084fc;
-
-
-
-margin-bottom: 15px;
-
+@keyframes pulsePath {
+  to {
+    stroke-dashoffset: -28;
+  }
 }
 
-
-
-.skill-card p {
-
-color: #b9a8d6;
-
-
-
-line-height: 1.6;
-
+/* Node card hover effect */
+.node-card {
+  background: var(--panel-bg);
+  border: 1px solid var(--panel-border);
+  border-radius: 10px;
+  padding: 14px 16px;
+  font-family: system-ui, sans-serif;
+  transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s ease, border-color 0.3s ease;
+  cursor: pointer;
 }
 
-
-
-
+.node-card:hover {
+  transform: translateY(-8px) scale(1.04);
+  border-color: var(--purple-3);
+  box-shadow: 0 12px 35px rgba(232, 121, 249, 0.3);
+}
 
 /* ---------- PROJECTS ---------- */
 

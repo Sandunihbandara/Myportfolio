@@ -15,17 +15,26 @@ window.addEventListener("scroll", () => {
     const scrollY = window.scrollY;
     const homeHeight = homeSection.offsetHeight;
     const viewHeight = window.innerHeight;
-    const progress = Math.min(scrollY / (homeHeight - viewHeight), 1);
+    
+    // Calculate progress between 0 and 1
+    const maxScroll = Math.max(1, homeHeight - viewHeight);
+    const progress = Math.min(Math.max(0, scrollY / maxScroll), 1);
+
+    // Keep person visible so #skills can scroll over it naturally
+    if (person) {
+        person.style.opacity = "1";
+        person.style.pointerEvents = "auto";
+    }
 
     let scale = 1;
     let img1Opacity = 1;
     let videoOpacity = 0;
     let imgEndOpacity = 0;
-    let imgTranslateX = 0; // Baseline centering inside the media wrapper
+    let imgTranslateX = 0; 
 
-    // Phase 1: Zoom In into first image face (Centered)
-    if (progress <= 0.4) {
-        scale = 1 + (progress / 0.4) * 2.0; 
+    // Phase 1: Zoom in (0% -> 30%)
+    if (progress <= 0.3) {
+        scale = 1 + (progress / 0.3) * 2.0; 
         img1Opacity = 1;
         videoOpacity = 0;
         imgEndOpacity = 0;
@@ -36,9 +45,9 @@ window.addEventListener("scroll", () => {
             aboutSplitContent.style.opacity = "0";
         }
     } 
-    // Phase 2: Zoom out & Crossfade into Waving Video (Centered)
-    else if (progress > 0.4 && progress <= 0.8) {
-        const phaseProgress = (progress - 0.4) / 0.4; 
+    // Phase 2: Zoom out & Video crossfade (30% -> 60%)
+    else if (progress > 0.3 && progress <= 0.6) {
+        const phaseProgress = (progress - 0.3) / 0.3; 
         scale = 3.0 - (phaseProgress * 2.0); 
         
         img1Opacity = 1 - phaseProgress;
@@ -51,78 +60,64 @@ window.addEventListener("scroll", () => {
             aboutSplitContent.style.opacity = "0";
         }
     } 
-    // Phase 3: Move layout to separate elements and slide profile-end left
+    // Phase 3: Split layout & reveal About text (60% -> 100%)
     else {
         scale = 1; 
-        const phaseProgress = (progress - 0.8) / 0.2; 
+        const phaseProgress = Math.min(1, (progress - 0.6) / 0.25); // Fully visible by 85% progress
         
         img1Opacity = 0;
         videoOpacity = 1 - phaseProgress; 
         imgEndOpacity = phaseProgress; 
         
-        // Nudge the image left inside its half of the frame
         imgTranslateX = -40 * phaseProgress; 
 
-        // Split the parent layout open to make room for the right-hand text
         if (person) {
             person.style.justifyContent = "space-between";
         }
 
-        // Activate layout visibility and reveal text smoothly
         if (aboutSplitContent) {
             aboutSplitContent.style.display = "block";
-            // Allow display change to resolve before applying opacity transitions
-            setTimeout(() => {
-                aboutSplitContent.style.opacity = phaseProgress;
-                aboutSplitContent.style.transform = `translateX(${0 - (1 - phaseProgress) * 25}px)`;
-            }, 10);
+            aboutSplitContent.style.opacity = phaseProgress;
+            aboutSplitContent.style.transform = `translateX(${0 - (1 - phaseProgress) * 25}px)`;
         }
     }
 
-    // Apply the clean zoom tracking changes directly on the container frame
     if (person) person.style.transform = `translateX(-50%) translateY(-50%) scale(${scale})`;
     
-    // Slide ONLY the profile end asset slightly left during Phase 3
     if (profileEnd) {
         profileEnd.style.transform = `translateX(${imgTranslateX}px)`;
         profileEnd.style.opacity = imgEndOpacity;
     }
 
-    // Update opacity layers
     if (profileImage) profileImage.style.opacity = img1Opacity;
     if (waveVideo)    waveVideo.style.opacity = videoOpacity;
 
-    /* Text & Indicator updates */
-    let textOpacity = 1 - (scrollY / (viewHeight * 0.4));
-    homeContent.style.opacity = Math.max(0, textOpacity);
+    /* Hero Text Fade Out */
+    let textOpacity = 1 - (scrollY / (viewHeight * 0.3));
+    if (homeContent) homeContent.style.opacity = Math.max(0, textOpacity);
 
-    if (scrollY > viewHeight * 0.2) {
-        scrollIndicator.style.opacity = "0";
-    } else {
-        scrollIndicator.style.opacity = "1";
+    /* Scroll Indicator */
+    if (scrollIndicator) {
+        scrollIndicator.style.opacity = scrollY > viewHeight * 0.2 ? "0" : "1";
     }
 });
 
-
 // --- ADD THIS CODE TO THE VERY BOTTOM OF YOUR SCRIPT.JS FILE ---
+
 
 const aboutNavLink = document.querySelector('[data-scroll="about"]');
 
 if (aboutNavLink) {
     aboutNavLink.addEventListener('click', (event) => {
-        event.preventDefault(); // Stop the default broken browser jump
+        event.preventDefault();
 
         if (homeSection) {
             const homeHeight = homeSection.offsetHeight;
             const viewHeight = window.innerHeight;
 
-            /* 
-               Calculates the sweet spot (roughly 90% down your 300vh track) 
-               where the final image has slid left and the text is fully faded in.
-            */
-            const targetScrollPosition = homeSection.offsetTop + (homeHeight - viewHeight) * 0.92;
+            // Updated multiplier from 0.92 to 0.75 for 180vh track
+            const targetScrollPosition = homeSection.offsetTop + (homeHeight - viewHeight) * 0.75;
 
-            // Force a clean, smooth scroll directly to the animation frame
             window.scrollTo({
                 top: targetScrollPosition,
                 behavior: 'smooth'
@@ -130,6 +125,8 @@ if (aboutNavLink) {
         }
     });
 }
+
+
 
 // ---------- SYSTEM DASHBOARD GRAPH ENGINE ----------
 function drawLines() {
